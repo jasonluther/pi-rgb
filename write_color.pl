@@ -11,6 +11,7 @@ if ($color_string =~ /#?(..)(..)(..)/) {
   die "You didn't provide a format that satisfied me.";
 }
 
+unlink("/var/rgbcolor");
 open(OUT, ">/var/rgbcolor") or die "Unable to open $!";
 binmode(OUT);
 print "Red: $red\n";
