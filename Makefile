@@ -1,0 +1,36 @@
+# copied from wiringPi Makefile
+#DEBUG	= -g -O0
+DEBUG	= -O3
+CC	= gcc
+INCLUDE	= -I/usr/local/include
+CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
+
+LDFLAGS	= -L/usr/local/lib
+LDLIBS    = -lwiringPi -lpthread -lm
+
+SRC	=	rgb.c 
+OBJ	=	$(SRC:.c=.o)
+BINS	=	$(SRC:.c=)
+
+all:	$(BINS)
+
+rgb:	rgb.o
+	@echo [link]
+	@$(CC) -o $@ rgb.o $(LDFLAGS) $(LDLIBS)
+
+
+.c.o:
+	@echo [CC] $<
+	@$(CC) -c $(CFLAGS) $< -o $@
+
+clean:
+	rm -f $(OBJ) *~ core tags $(BINS)
+
+tags:	$(SRC)
+	@echo [ctags]
+	@ctags $(SRC)
+
+depend:
+	makedepend -Y $(SRC)
+
+# DO NOT DELETE
