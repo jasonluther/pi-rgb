@@ -3,9 +3,29 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
 
-unsigned char RGB_VALUE[3] = { 0, 0, 0 };
+unsigned char RGB_VALUE[3] = { 128, 128, 128 };
 int RGB_PIN[3] = { 4, 5, 6 };
+int time_to_update = 0;
+
+void update_rgb(void) {
+  int i, fd, bytes_read;
+  char color[3]; /* 3 bytes */
+  if ((fd = open("/var/rgbcolor", O_RDONLY)) < 0) {
+    fprintf(stderr, "Unable to open /var/rgbcolor: %s\n", strerror (errno));
+  }
+  if ((bytes_read = read(fd, color, 3)) < 3) {
+    fprintf(stderr, "Didn't read all 3 bytes: %s\n", strerror (errno));
+  }
+  for (i = 0; i < 3; i++) {
+    RGB_VALUE[i] = color[i];
+  }
+  if (close(fd) < 0) {
+    fprintf(stderr, "Unable to close /var/rgbcolor: %s\n", strerror (errno));
+  }
+}
 
 int main(int argc, char *argv[]) {
   int i;
@@ -23,10 +43,7 @@ int main(int argc, char *argv[]) {
   }
 
   while (1) {
-    /* get the rgb values from some IPC, one byte per color */
-      RGB_VALUE[0] = 255;
-      RGB_VALUE[1] = 127;
-      RGB_VALUE[2] = 63;
+    update_rgb();
     
     for (i = 0; i < 3; i++) {
       softPwmWrite(RGB_PIN[i], RGB_VALUE[i]) ;
@@ -35,3 +52,4 @@ int main(int argc, char *argv[]) {
   }
 
 }
+
