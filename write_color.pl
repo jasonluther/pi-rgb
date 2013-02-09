@@ -6,7 +6,7 @@ chomp $color_string;
 print "Input: $color_string\n";
 my ($red, $green, $blue);
 if ($color_string =~ /#?(..)(..)(..)/) {
-  ($red, $green, $blue) = map { hex($_) } ($1, $2, $3);
+  ($red, $green, $blue) = map { pack("C",hex($_)) } ($1, $2, $3);
 } else {
   die "You didn't provide a format that satisfied me.";
 }
