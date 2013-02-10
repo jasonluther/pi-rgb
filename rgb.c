@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     update_RGB();
     for (i = 0; i < 3; i++) {
       if (RGB_PREV_VALUE[i] != RGB_VALUE[i]) {
-        fprintf(stdout, "softPwmWrite %d: %d\n", RGB_PIN[i], RGB_VALUE[i]);
+        /* fprintf(stdout, "softPwmWrite %d: %d\n", RGB_PIN[i], RGB_VALUE[i]); */
         softPwmWrite(RGB_PIN[i], RGB_VALUE[i]) ;
         RGB_PREV_VALUE[i] = RGB_VALUE[i];
       }

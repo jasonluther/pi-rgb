@@ -38,3 +38,16 @@ depend:
 	makedepend -Y $(SRC)
 
 # DO NOT DELETE
+
+install: all
+	sudo apt-get install daemon
+	sudo apt-get install lighttpd
+	sudo lighttpd-enable-mod cgi
+	sudo cp 10-cgi.conf /etc/lighttpd/conf-enabled/10-cgi.conf
+	sudo cp rgb-cgi.pl /var/www/rgb.pl
+	sudo chmod +x /var/www/rgb.pl
+	sudo service lighttpd force-reload
+	sudo cp rgb /usr/local/bin/rgb
+	sudo chmod +x /usr/local/bin/rgb
+	echo "Add this to /etc/rc.local:"
+	echo "/usr/bin/daemon -r /home/pi/pi-rgb/rgb --name=rgb"
