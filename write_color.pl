@@ -16,3 +16,12 @@ print OUT $red;
 print OUT $green;
 print OUT $blue;
 close(OUT);
+
+my $mode_string = shift;
+$mode_string = 0 unless defined $mode_string;
+print "Mode: $mode_string\n";
+my $mode = pack("C",$mode_string);
+open(OUT, ">/var/rgbmode") or die "Unable to open $!";
+binmode(OUT);
+print OUT $mode;
+close(OUT);
