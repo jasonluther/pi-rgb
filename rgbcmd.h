@@ -16,4 +16,6 @@ typedef struct rgbcmd {
   unsigned char blue;
 } rgbcmd_t;
 
+rgbcmd_t *open_rgbcmd(int going_to_write);
+
 #endif

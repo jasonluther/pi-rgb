@@ -8,7 +8,7 @@ CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 LDFLAGS	= -L/usr/local/lib
 LDLIBS    = -lwiringPi -lpthread -lm
 
-SRC	=	rgb-min.c rgb.c 
+SRC	=	rgb-min.c rgb.c write_rgbcmd.c read_rgbcmd.c
 OBJ	=	$(SRC:.c=.o)
 BINS	=	$(SRC:.c=)
 
@@ -21,6 +21,14 @@ rgb-min:	rgb-min.o
 rgb:	rgb.o
 	@echo [link]
 	@$(CC) -o $@ rgb.o $(LDFLAGS) $(LDLIBS)
+
+write_rgbcmd: write_rgbcmd.o rgbcmd.o
+	@echo [link]
+	@$(CC) -o $@ write_rgbcmd.o rgbcmd.o $(LDFLAGS) $(LDLIBS)
+
+read_rgbcmd: read_rgbcmd.o rgbcmd.o
+	@echo [link]
+	@$(CC) -o $@ read_rgbcmd.o rgbcmd.o $(LDFLAGS) $(LDLIBS)
 
 
 .c.o:

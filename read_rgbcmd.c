@@ -5,11 +5,12 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include "rgbcmd.h"
 
 int main(int argc, char *argv[]) {
   rgbcmd_t *cmd;
-  int fd, result;
+  int fd;
   if ((fd = open("/var/rgbcmd", O_RDONLY)) < 0) {
     fprintf(stderr, "Unable to open /var/rgbcmd: %s\n", strerror(errno));
     exit(errno);

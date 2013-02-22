@@ -1,4 +1,6 @@
 rgb
 rgb-min
+read_rgbcmd
+write_rgbcmd
 *.o
 *.swp
