@@ -11,11 +11,13 @@
 rgbcmd_t *open_rgbcmd(int going_to_write) {
   rgbcmd_t *cmd;
   int fd, result;
-  int openargs;
+  int openargs, mmapflags;
   if (going_to_write) {
     openargs = O_CREAT|O_TRUNC|O_RDWR;
+    mmapflags = PROT_READ|PROT_WRITE;
   } else {
     openargs = O_RDONLY;
+    mmapflags = PROT_READ;
   }
   if ((fd = open("/var/rgbcmd", openargs)) < 0) {
     fprintf(stderr, "Unable to open /var/rgbcmd: %s\n", strerror(errno));
@@ -33,7 +35,7 @@ rgbcmd_t *open_rgbcmd(int going_to_write) {
       exit(errno);
     }
   }
-  cmd = mmap(NULL, sizeof(rgbcmd_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_FILE, fd, 0);
+  cmd = mmap(NULL, sizeof(rgbcmd_t), mmapflags, MAP_SHARED|MAP_FILE, fd, 0);
   if (cmd == MAP_FAILED) {
     fprintf(stderr, "Unable to mmap /var/rgbcmd: %s\n", strerror(errno));
     exit(errno);

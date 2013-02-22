@@ -10,16 +10,7 @@
 
 int main(int argc, char *argv[]) {
   rgbcmd_t *cmd;
-  int fd;
-  if ((fd = open("/var/rgbcmd", O_RDONLY)) < 0) {
-    fprintf(stderr, "Unable to open /var/rgbcmd: %s\n", strerror(errno));
-    exit(errno);
-  }
-  cmd = mmap(NULL, sizeof(rgbcmd_t), PROT_READ, MAP_SHARED|MAP_FILE, fd, 0);
-  if (cmd == MAP_FAILED) {
-    fprintf(stderr, "Unable to mmap /var/rgbcmd: %s\n", strerror(errno));
-    exit(errno);
-  }
+  cmd = open_rgbcmd(0);
   while(1) {
     fprintf(stdout, "mode = %d \t", cmd->mode);
     fprintf(stdout, "red = %d \t", cmd->red);
@@ -28,5 +19,4 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, "\n");
     sleep(1);
   }
-  close(fd);
 }
