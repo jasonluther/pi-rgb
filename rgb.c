@@ -26,8 +26,8 @@ int time_to_blink(void) {
 }
 
 int main(int argc, char *argv[]) {
-  int i;
-  rgbcmd_t *cmd;
+  rgbcmd_t *user_cmd, *current_cmd;
+  rgbcmd_t off_cmd, rainbow_cmd;
   NEXT_TIME_TO_BLINK = 0;
 
   /* wiringPiSetup() uses pins 0-17, wiringPiSetupGpio() uses BCM pins! */
@@ -39,34 +39,45 @@ int main(int argc, char *argv[]) {
   softPwmCreate(PIN_GREEN, 0, 255);
   softPwmCreate(PIN_BLUE, 0, 255);
 
-  cmd = open_rgbcmd(0);
+  off_cmd.red = 0;
+  off_cmd.green = 0;
+  off_cmd.blue = 0;
+
+  rainbow_cmd.red = 0;
+  rainbow_cmd.green = 0;
+  rainbow_cmd.blue = 0;
+
+  user_cmd = open_rgbcmd(0);
+  current_cmd = user_cmd;
 
   while (1) {
-    switch(cmd->mode) {
-      case RGB_MODE_OFF:
-        cmd->red = cmd->green = cmd->blue = 0;
-        break;
+    switch(user_cmd->mode) {
       case RGB_MODE_ON:
+        current_cmd = user_cmd;
+        break;
+      case RGB_MODE_OFF:
+        current_cmd = &off_cmd;
         break;
       case RGB_MODE_RAINBOW:
-        cmd->red++;
-        cmd->green++;
-        cmd->blue++;
+        current_cmd = &rainbow_cmd;
+        current_cmd->red++;
+        current_cmd->green++;
+        current_cmd->blue++;
         break;
       case RGB_MODE_BLINK:
         if (time_to_blink()) {
-
+          current_cmd = &off_cmd;
         } else {
-
+          current_cmd = user_cmd;
         }
         break;
       default:
-        fprintf(stderr, "Invalid mode %d\n", cmd->mode);
+        fprintf(stderr, "Invalid mode %d\n", user_cmd->mode);
         break;
     }
-    softPwmWrite(PIN_RED, cmd->red) ;
-    softPwmWrite(PIN_GREEN, cmd->green) ;
-    softPwmWrite(PIN_BLUE, cmd->blue) ;
+    softPwmWrite(PIN_RED, current_cmd->red) ;
+    softPwmWrite(PIN_GREEN, current_cmd->green) ;
+    softPwmWrite(PIN_BLUE, current_cmd->blue) ;
     delay(500);
   }
 
