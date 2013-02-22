@@ -18,9 +18,9 @@ rgb-min:	rgb-min.o
 	@echo [link]
 	@$(CC) -o $@ rgb-min.o $(LDFLAGS) $(LDLIBS)
 
-rgb:	rgb.o
+rgb:	rgb.o rgbcmd.o
 	@echo [link]
-	@$(CC) -o $@ rgb.o $(LDFLAGS) $(LDLIBS)
+	@$(CC) -o $@ rgb.o rgbcmd.o $(LDFLAGS) $(LDLIBS)
 
 write_rgbcmd: write_rgbcmd.o rgbcmd.o
 	@echo [link]

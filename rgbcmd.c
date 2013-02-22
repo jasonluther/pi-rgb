@@ -8,22 +8,21 @@
 #include <string.h>
 #include "rgbcmd.h"
 
-rgbcmd_t *open_rgbcmd(int going_to_write) {
+rgbcmd_t *open_rgbcmd(int going_to_create) {
   rgbcmd_t *cmd;
   int fd, result;
   int openargs, mmapflags;
-  if (going_to_write) {
+  mmapflags = PROT_READ|PROT_WRITE;
+  if (going_to_create) {
     openargs = O_CREAT|O_TRUNC|O_RDWR;
-    mmapflags = PROT_READ|PROT_WRITE;
   } else {
-    openargs = O_RDONLY;
-    mmapflags = PROT_READ;
+    openargs = O_RDWR;
   }
   if ((fd = open("/var/rgbcmd", openargs)) < 0) {
     fprintf(stderr, "Unable to open /var/rgbcmd: %s\n", strerror(errno));
     exit(errno);
   }
-  if (going_to_write) {
+  if (going_to_create) {
     if ((result = lseek(fd, sizeof(rgbcmd_t), SEEK_SET)) < 0) {
       close(fd);
       fprintf(stderr, "Unable to lseek /var/rgbcmd: %s\n", strerror(errno));
