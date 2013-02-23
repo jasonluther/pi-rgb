@@ -37,6 +37,7 @@ void update_rgbcmd_from_hue(int hue, rgbcmd_t *rainbow_cmd) {
   hue %= 360;
   sector = hue / 60;
   fraction = (hue % 60) / 60.0;
+//fprintf(stderr, "hue %d, sector %d, fraction %f\n", hue, sector, fraction);
   t = 255 * fraction;
   q = 255 - t;
   switch(sector) {
@@ -123,6 +124,8 @@ int main(int argc, char *argv[]) {
         break;
       default:
         fprintf(stderr, "Invalid mode %d\n", user_cmd->mode);
+        user_cmd->mode = RGB_MODE_RAINBOW;
+        current_cmd = &rainbow_cmd;
         break;
     }
     //fprintf(stderr, "RGB %d %d %d\n", current_cmd->red, current_cmd->green, current_cmd->blue);
