@@ -78,6 +78,12 @@ void update_rgbcmd_from_hue(int hue, rgbcmd_t *rainbow_cmd) {
   }
 }
 
+void update_rgbcmd_from_random(rgbcmd_t *rainbow_cmd) {
+  rainbow_cmd->red = rand() % 256;
+  rainbow_cmd->green = rand() % 256;
+  rainbow_cmd->blue = rand() % 256;
+}
+
 int main(int argc, char *argv[]) {
   rgbcmd_t *user_cmd, *current_cmd;
   rgbcmd_t off_cmd, rainbow_cmd;
@@ -114,6 +120,10 @@ int main(int argc, char *argv[]) {
         current_cmd = &rainbow_cmd;
         HUE++; if (HUE > 360) { HUE = 0; }
         update_rgbcmd_from_hue(HUE, &rainbow_cmd);
+        break;
+      case RGB_MODE_RANDOM:
+        current_cmd = &rainbow_cmd;
+        update_rgbcmd_from_random(&rainbow_cmd);
         break;
       case RGB_MODE_BLINK:
         if (time_to_blink()) {
