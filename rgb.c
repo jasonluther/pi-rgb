@@ -134,8 +134,7 @@ int main(int argc, char *argv[]) {
         break;
       default:
         fprintf(stderr, "Invalid mode %d\n", user_cmd->mode);
-        user_cmd->mode = RGB_MODE_RAINBOW;
-        current_cmd = &rainbow_cmd;
+        current_cmd = &off_cmd;
         break;
     }
     //fprintf(stderr, "RGB %d %d %d\n", current_cmd->red, current_cmd->green, current_cmd->blue);
