@@ -19,3 +19,12 @@ To set the command (color and mode), see `write_rgbcmd.c`. It uses mmap() to
 choose the mode (on, off, blink, rainbow, and random) and the color for the 
 on/blink modes. 
 
+### CGI
+
+We want to have a simple way to set the mode and color:
+
+http://pi/rgbcmd/on/ff0012
+http://pi/rgbcmd/blink/ff0000
+http://pi/rgbcmd/off
+http://pi/rgbcmd/rainbow
+http://pi/rgbcmd/random

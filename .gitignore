@@ -4,3 +4,4 @@ read_rgbcmd
 write_rgbcmd
 *.o
 *.swp
+*.cgi
