@@ -16,6 +16,8 @@ typedef struct rgbcmd {
   unsigned char blue;
 } rgbcmd_t;
 
-rgbcmd_t *open_rgbcmd(int going_to_write);
+rgbcmd_t *open_rgbcmd(int need_to_create);
+
+void rgbcmd_json(rgbcmd_t *cmd, char *buffer, size_t length);
 
 #endif
