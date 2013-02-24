@@ -1,7 +1,6 @@
 rgb
-rgb-min
+rgbcmd-cgi
 read_rgbcmd
 write_rgbcmd
 *.o
 *.swp
-*.cgi

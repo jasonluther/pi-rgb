@@ -8,7 +8,7 @@ CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 LDFLAGS	= -L/usr/local/lib
 LDLIBS    = -lwiringPi -lpthread -lm
 
-SRC	=	rgb.c write_rgbcmd.c read_rgbcmd.c
+SRC	=	rgb.c write_rgbcmd.c read_rgbcmd.c rgbcmd-cgi.c
 OBJ	=	$(SRC:.c=.o)
 BINS	=	$(SRC:.c=)
 
@@ -26,6 +26,10 @@ read_rgbcmd: read_rgbcmd.o rgbcmd.o
 	@echo [link]
 	@$(CC) -o $@ read_rgbcmd.o rgbcmd.o $(LDFLAGS) $(LDLIBS)
 
+rgbcmd-cgi: rgbcmd.o rgbcmd-cgi.o
+	@echo [link]
+	@$(CC) -o $@ rgbcmd-cgi.o rgbcmd.o $(LDFLAGS) $(LDLIBS)
+
 .c.o:
 	@echo [CC] $<
 	@$(CC) -c $(CFLAGS) $< -o $@
@@ -40,17 +44,17 @@ tags:	$(SRC)
 depend:
 	makedepend -Y $(SRC)
 
-# DO NOT DELETE
-
-install: all
-	sudo apt-get install daemon lighttpd
-	- sudo lighttpd-enable-mod cgi
+copy-files: all
 	sudo cp 10-cgi.conf /etc/lighttpd/conf-enabled/10-cgi.conf
-	- sudo service lighttpd force-reload
-	sudo cp rgbcmd.cgi /var/www/rgbcmd
+	sudo cp rgbcmd-cgi /var/www/rgbcmd
 	sudo chmod +x /var/www/rgbcmd
 	sudo cp rgb /usr/local/bin/rgb
 	sudo chmod +x /usr/local/bin/rgb
+
+install: all copy-files
+	sudo apt-get install daemon lighttpd
+	- sudo lighttpd-enable-mod cgi
+	- sudo service lighttpd force-reload
 	@echo
 	@echo
 	@echo "Add this to /etc/rc.local:"
