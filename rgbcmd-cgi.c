@@ -15,24 +15,17 @@ int main(void)
    char hex_red[3] = "ff";
    char hex_green[3] = "ff";
    char hex_blue[3] = "ff";
-   printf("Content-type: text/plain\n\n");
-   printf("QUERY_STRING=%s\n", getenv("QUERY_STRING"));
+   printf("Content-type: application/json\n\n");
 
    rgbcmd = open_rgbcmd(0);
-   rgbcmd_json(rgbcmd, jsonbuffer, sizeof(jsonbuffer));
-   printf("Original: %s\n", jsonbuffer);
 
    path_info = getenv("PATH_INFO");
    if (path_info) {
-     printf("PATH_INFO=%s\n", path_info);
      strncpy(buffer, getenv("PATH_INFO"), sizeof(buffer));
      buffer[sizeof(buffer)-1] = '\0';
-     printf("buffer=%s\n", buffer);
   
      command = strtok(buffer, "/");
      if (command) {
-       printf("command=%s\n", command);
-
        if (!strcmp(command, "on")) {
          rgbcmd->mode = RGB_MODE_ON;
          want_color = 1;
@@ -46,12 +39,11 @@ int main(void)
        } else if (!strcmp(command, "rainbow")) {
          rgbcmd->mode = RGB_MODE_RAINBOW;
        } else {
-         /* XXX return? */
+         /* invalid command, might want to move this code to rgbcmd.c */
        }
     
        if (want_color) {
          color = strtok(NULL, "/");
-         printf("color=%s\n", color);
          if (color && (strlen(color) == 6)) {
            strncpy(hex_red, color, 2); hex_red[2] = '\0';
            strncpy(hex_green, color+2, 2); hex_green[2] = '\0';
@@ -62,14 +54,13 @@ int main(void)
          }
        }
      } else {
-       printf("No command\n");
+       /* no command */
      }
    } else {
-     printf("No PATH_INFO\n");
+     /* no path info */
    }
    rgbcmd_json(rgbcmd, jsonbuffer, sizeof(jsonbuffer));
    printf(jsonbuffer);
-   printf("\n");
 
    return 0;
 }
