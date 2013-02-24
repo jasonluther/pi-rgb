@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "rgbcmd.h"
 
+/* XXX refactor with rgbcmd-cgi.c */
 int main(int argc, char *argv[]) {
   rgbcmd_t *cmd;
   cmd = open_rgbcmd(1);

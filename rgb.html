@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Raspberry Pi RGB LED</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <style>
+body {
+  background: rgb(128, 0, 255);
+}
+  </style>
+</head>
+<body>
+<h1>Hello, world!</h1>
+<script>
+function updatedb(data) {
+    var hex = "#" + data.hex;
+    $('body').css('background',hex);
+}
+function rgbcmd(command, hexcolor) {
+  $.getJSON("/rgbcmd/"+command+"/"+hexcolor, updatebg);
+}
+
+$(document).ready(function() {
+  $.getJSON("/rgbcmd", updatedb); 
+});
+</script>
+</body>
+</html>

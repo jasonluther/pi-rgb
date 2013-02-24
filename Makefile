@@ -48,6 +48,7 @@ copy-files: all
 	sudo cp 10-cgi.conf /etc/lighttpd/conf-enabled/10-cgi.conf
 	sudo cp rgbcmd-cgi /var/www/rgbcmd
 	sudo chmod +x /var/www/rgbcmd
+	sudo cp rgb.html /var/www/index.html
 	sudo cp rgb /usr/local/bin/rgb
 	sudo chmod +x /usr/local/bin/rgb
 
