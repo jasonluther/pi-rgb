@@ -8,10 +8,27 @@
 body {
   background: rgb(128, 0, 255);
 }
+.selected {
+  background: gray;
+}
+ul {
+  margin: 1em;
+}
+li {
+  list-style-type: none;
+  display: inline;
+  padding: 1em;
+  border: thin solid gray;
+  border-radius: 6px;
+}
+li a {
+  color: black;
+  text-decoration: none;
+}
   </style>
 </head>
 <body>
-<h1>Hello, world!</h1>
+<h1>Raspberry Pi RGB LED</h1>
 <h2 id="hex">HEXHEX</h2>
 <h2 id="command">COMMAND</h2>
 <ul id="commands">
@@ -21,6 +38,7 @@ body {
 <li><a href="#" class="cmd_button" id="cmd_random">Random</a></li>
 <li><a href="#" class="cmd_button" id="cmd_rainbow">Rainbow</a></li>
 </ul>
+<br/>
 <ul id="colors">
 </ul>
 
@@ -32,8 +50,8 @@ function update(data) {
     $('body').css('background','#' + state.hex);
     $('#hex').html('#' + state.hex);
     $('#command').html(state.command);
-    $('.cmd_button').parent().show();
-    $('#cmd_' + state.command).parent().hide();
+    $('.cmd_button').parent().removeClass('selected');
+    $('#cmd_' + state.command).parent().addClass('selected');
 }
 function rgbcmd(event) {
 console.log(event.data);
@@ -48,16 +66,16 @@ console.log(event.data);
 
 $(document).ready(function() {
   $.getJSON("/rgbcmd", update); 
-  $("#cmd_on").click({command:'on'}, rgbcmd);
-  $("#cmd_off").click({command:'off'}, rgbcmd);
-  $("#cmd_blink").click({command:'blink'}, rgbcmd);
-  $("#cmd_random").click({command:'random'}, rgbcmd);
-  $("#cmd_rainbow").click({command:'rainbow'}, rgbcmd);
+  $("#cmd_on").parent().click({command:'on'}, rgbcmd);
+  $("#cmd_off").parent().click({command:'off'}, rgbcmd);
+  $("#cmd_blink").parent().click({command:'blink'}, rgbcmd);
+  $("#cmd_random").parent().click({command:'random'}, rgbcmd);
+  $("#cmd_rainbow").parent().click({command:'rainbow'}, rgbcmd);
   var colors = [ 'ff0000', '00ff00', '0000ff', 'ffff00', 'ffffff' ];
   $.each(colors, function(index, val) {
     var li = '<li><a href="#" class="color_button" id="color_' + val + '">' + val + '</a></li>';
     $("#colors").append(li);
-    $("#color_" + val).click({hex:val}, rgbcmd);
+    $("#color_" + val).parent().click({hex:val}, rgbcmd);
   });
 });
 </script>
