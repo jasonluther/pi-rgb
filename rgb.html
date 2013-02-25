@@ -14,12 +14,14 @@ body {
 <h1>Hello, world!</h1>
 <h2 id="hex">HEXHEX</h2>
 <h2 id="command">COMMAND</h2>
-<ul>
-<li><a href="#" id="cmd_off">Off</a></li>
-<li><a href="#" id="cmd_on">On</a></li>
-<li><a href="#" id="cmd_blink">Blink</a></li>
-<li><a href="#" id="cmd_random">Random</a></li>
-<li><a href="#" id="cmd_rainbow">Rainbow</a></li>
+<ul id="commands">
+<li><a href="#" class="cmd_button" id="cmd_off">Off</a></li>
+<li><a href="#" class="cmd_button" id="cmd_on">On</a></li>
+<li><a href="#" class="cmd_button" id="cmd_blink">Blink</a></li>
+<li><a href="#" class="cmd_button" id="cmd_random">Random</a></li>
+<li><a href="#" class="cmd_button" id="cmd_rainbow">Rainbow</a></li>
+</ul>
+<ul id="colors">
 </ul>
 
 <script>
@@ -30,6 +32,8 @@ function update(data) {
     $('body').css('background','#' + state.hex);
     $('#hex').html('#' + state.hex);
     $('#command').html(state.command);
+    $('.cmd_button').parent().show();
+    $('#cmd_' + state.command).parent().hide();
 }
 function rgbcmd(event) {
 console.log(event.data);
@@ -49,6 +53,12 @@ $(document).ready(function() {
   $("#cmd_blink").click({command:'blink'}, rgbcmd);
   $("#cmd_random").click({command:'random'}, rgbcmd);
   $("#cmd_rainbow").click({command:'rainbow'}, rgbcmd);
+  var colors = [ 'ff0000', '00ff00', '0000ff', 'ffff00', 'ffffff' ];
+  $.each(colors, function(index, val) {
+    var li = '<li><a href="#" class="color_button" id="color_' + val + '">' + val + '</a></li>';
+    $("#colors").append(li);
+    $("#color_" + val).click({hex:val}, rgbcmd);
+  });
 });
 </script>
 </body>
