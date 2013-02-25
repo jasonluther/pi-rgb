@@ -12,17 +12,43 @@ body {
 </head>
 <body>
 <h1>Hello, world!</h1>
+<h2 id="hex">HEXHEX</h2>
+<h2 id="command">COMMAND</h2>
+<ul>
+<li><a href="#" id="cmd_off">Off</a></li>
+<li><a href="#" id="cmd_on">On</a></li>
+<li><a href="#" id="cmd_blink">Blink</a></li>
+<li><a href="#" id="cmd_random">Random</a></li>
+<li><a href="#" id="cmd_rainbow">Rainbow</a></li>
+</ul>
+
 <script>
-function updatedb(data) {
-    var hex = "#" + data.hex;
-    $('body').css('background',hex);
+var state = {hex:'ffffff',command:'on'};
+function update(data) {
+    state.hex = data.hex;
+    state.command = data.command;
+    $('body').css('background','#' + state.hex);
+    $('#hex').html('#' + state.hex);
+    $('#command').html(state.command);
 }
-function rgbcmd(command, hexcolor) {
-  $.getJSON("/rgbcmd/"+command+"/"+hexcolor, updatebg);
+function rgbcmd(event) {
+console.log(event.data);
+  if (event.data.command) {
+    state.command = event.data.command;
+  }
+  if (event.data.hex) {
+    state.hex = event.data.hex;
+  }
+  $.getJSON("/rgbcmd/"+state.command+"/"+state.hex, update);
 }
 
 $(document).ready(function() {
-  $.getJSON("/rgbcmd", updatedb); 
+  $.getJSON("/rgbcmd", update); 
+  $("#cmd_on").click({command:'on'}, rgbcmd);
+  $("#cmd_off").click({command:'off'}, rgbcmd);
+  $("#cmd_blink").click({command:'blink'}, rgbcmd);
+  $("#cmd_random").click({command:'random'}, rgbcmd);
+  $("#cmd_rainbow").click({command:'rainbow'}, rgbcmd);
 });
 </script>
 </body>
