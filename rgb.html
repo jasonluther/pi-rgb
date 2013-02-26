@@ -3,12 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>Light</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <style>
 body {
   margin: 0;
   padding: 0;
   font-family: avenir;
+  width: 35em;
+  text-align: center;
+}
+h1 {
+  text-align: center;
 }
 /* http://css-tricks.com/circular-3d-buttons/ */
 .nav {
@@ -67,12 +73,23 @@ body {
   background: #fbfbfb;
   font-weight: bold;
 }
+#current_color {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  border: thin solid gray;
+}
 
   </style>
 </head>
 <body>
 
-<h1>Light</h1>
+<h1>Light
+<div id="current_color"></div>
+</h1>
 <ul class="nav" id="commands">
 <li><a href="#" class="cmd_button" id="cmd_off">Off</a></li>
 <li><a href="#" class="cmd_button" id="cmd_on">On</a></li>
@@ -89,7 +106,7 @@ var state = {hex:'ffffff',command:'on'};
 function update(data) {
     state.hex = data.hex;
     state.command = data.command;
-    //$('body').css('background','#' + state.hex);
+    $('#current_color').css('background','#' + state.hex);
     $('#hex').html('#' + state.hex);
     $('#command').html(state.command);
     $('.cmd_button').removeClass('selected');
@@ -119,6 +136,7 @@ $(document).ready(function() {
     var li = '<li><a href="#" class="color_button" id="color_' + val + '">' + colorlabels[index] + '</a></li>';
     $("#colors").append(li);
     $("#color_" + val).parent().click({hex:val}, rgbcmd);
+    $("#color_" + val).css('background', '#' + val);
   });
   setInterval(function() {
     $.getJSON("/rgbcmd", update);
