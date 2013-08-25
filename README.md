@@ -23,8 +23,14 @@ on/blink modes.
 
 We want to have a simple way to set the mode and color:
 
-http://pi/rgbcmd/on/ff0012
-http://pi/rgbcmd/blink/ff0000
-http://pi/rgbcmd/off
-http://pi/rgbcmd/rainbow
-http://pi/rgbcmd/random
+http://pi/rgbcmd/on/ff0012  
+http://pi/rgbcmd/blink/ff0000  
+http://pi/rgbcmd/off  
+http://pi/rgbcmd/rainbow  
+http://pi/rgbcmd/random  
+
+### Usage
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+This work is placed into the public domain.
