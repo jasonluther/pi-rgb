@@ -7,6 +7,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
+#include <setjmp.h>
+#include <signal.h>
 #include "rgbcmd.h"
 
 const int PIN_RED = 4;
@@ -84,9 +86,25 @@ void update_rgbcmd_from_random(rgbcmd_t *rainbow_cmd) {
   rainbow_cmd->blue = rand() % 256;
 }
 
+/* From http://www.linuxprogrammingblog.com/code-examples/SIGBUS-handling */
+static sigjmp_buf sj_env;
+static void sigbus_hdl (int sig, siginfo_t *siginfo, void *ptr) {
+  siglongjmp (sj_env, 1);
+}
+
 int main(int argc, char *argv[]) {
   rgbcmd_t *user_cmd, *current_cmd;
   rgbcmd_t off_cmd, rainbow_cmd;
+
+  struct sigaction act;
+  memset (&act, 0, sizeof(act));
+  act.sa_sigaction = sigbus_hdl;
+  act.sa_flags = SA_SIGINFO;
+ 
+  if (sigaction(SIGBUS, &act, 0)) {
+    perror ("sigaction");
+    return 1;
+  }
 
   /* wiringPiSetup() uses pins 0-17, wiringPiSetupGpio() uses BCM pins! */
   if (wiringPiSetup() < 0) {
@@ -104,6 +122,10 @@ int main(int argc, char *argv[]) {
   rainbow_cmd.red = 0;
   rainbow_cmd.green = 0;
   rainbow_cmd.blue = 0;
+
+  if (sigsetjmp(sj_env, 1)) {
+    fprintf (stderr, "Failed to read from mapped file\n");
+  }
 
   user_cmd = open_rgbcmd(0);
   current_cmd = user_cmd;
