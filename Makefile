@@ -52,12 +52,15 @@ copy-files: all
 	sudo cp rgb /usr/local/bin/rgb
 	sudo chmod +x /usr/local/bin/rgb
 
-install: all copy-files
+deps: 
 	sudo apt-get install daemon lighttpd
 	- sudo lighttpd-enable-mod cgi
+
+install: deps all copy-files
 	- sudo service lighttpd force-reload
+	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd
 	@echo
 	@echo
 	@echo "Add this to /etc/rc.local:"
-	@echo "/usr/bin/daemon -r /home/pi/pi-rgb/rgb --name=rgb"
+	@echo "/usr/bin/daemon -r /home/pi/git/pi-rgb/rgb --name=rgb"
 	@echo
