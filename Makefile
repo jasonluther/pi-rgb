@@ -53,11 +53,11 @@ copy-files: all
 	sudo install -v -m 744 -o root -g root rgb.service /etc/systemd/system/rgb.service
 
 deps: 
-	sudo apt-get install daemon lighttpd
+	- sudo apt-get install daemon lighttpd
 	- sudo lighttpd-enable-mod cgi
 
 install: deps all copy-files
 	- sudo service lighttpd force-reload
 	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd
-	sudo systemctl enable rgb.service
-	sudo systemctl restart rgb.service
+	- sudo systemctl enable rgb.service
+	- sudo systemctl restart rgb.service
