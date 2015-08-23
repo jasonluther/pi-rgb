@@ -1,6 +1,6 @@
-# upstart config for $SERVICENAME
-description "$DESCRIPTION"
-author "$AUTHOR"
+# upstart config for rgb
+description "rgb"
+author "Jason Luther"
 
 start on runlevel [35]
 stop on runlevel [!35]
@@ -9,5 +9,5 @@ respawn
 respawn limit unlimited
 
 script
-  $COMMAND
+  /home/pi/git/pi-rgb/rgb
 end script
