@@ -52,8 +52,11 @@ copy-files: all
 	sudo install -v -m 744 -o root -g root rgb /usr/local/bin/rgb
 	sudo install -v -m 744 -o root -g root rgb.service /etc/systemd/system/rgb.service
 
-deps: 
-	- sudo apt-get install daemon lighttpd
+deps: lighttpd
+	@echo need to install wiringpi
+
+lighttpd:
+	- sudo apt-get install -y daemon lighttpd
 	- sudo lighttpd-enable-mod cgi
 
 install: deps all copy-files
