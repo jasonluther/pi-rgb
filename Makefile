@@ -49,8 +49,8 @@ copy-files: all
 	sudo cp rgbcmd-cgi /var/www/rgbcmd
 	sudo chmod a+rwx /var/www/rgbcmd
 	sudo cp rgb.html /var/www/index.html
-	sudo cp rgb /usr/local/bin/rgb
-	sudo chmod +x /usr/local/bin/rgb
+	sudo install -v -m 744 -o root -g root rgb /usr/local/bin/rgb
+	sudo install -v -m 744 -o root -g root rgb.upstart /etc/init.d/rgb
 
 deps: 
 	sudo apt-get install daemon lighttpd
@@ -59,8 +59,4 @@ deps:
 install: deps all copy-files
 	- sudo service lighttpd force-reload
 	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd
-	@echo
-	@echo
-	@echo "Add this to /etc/rc.local:"
-	@echo "/usr/bin/daemon -r /home/pi/git/pi-rgb/rgb --name=rgb"
-	@echo
+	sudo stop rgb; sudo start rgb
