@@ -1,0 +1,11 @@
+[Unit]
+Description=RGB LED manager
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/rgb
+After=network.target
+Requires=network.target
+
+[Install]
+WantedBy=multi-user.target
