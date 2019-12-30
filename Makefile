@@ -46,9 +46,9 @@ depend:
 
 copy-files: all
 	sudo cp 10-cgi.conf /etc/lighttpd/conf-enabled/10-cgi.conf
-	sudo cp rgbcmd-cgi /var/www/rgbcmd
-	sudo chmod a+rwx /var/www/rgbcmd
-	sudo cp rgb.html /var/www/index.html
+	sudo cp rgbcmd-cgi /var/www/html/rgbcmd
+	sudo chmod a+rwx /var/www/html/rgbcmd
+	sudo cp rgb.html /var/www/html/index.html
 	sudo install -v -m 744 -o root -g root rgb /usr/local/bin/rgb
 	sudo install -v -m 744 -o root -g root rgb.service /etc/systemd/system/rgb.service
 
@@ -61,6 +61,6 @@ lighttpd:
 
 install: deps all copy-files
 	- sudo service lighttpd force-reload
-	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd
+	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd; sudo chmod 0666 /var/rgbcmd
 	- sudo systemctl enable rgb.service
 	- sudo systemctl restart rgb.service
