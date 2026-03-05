@@ -1,0 +1,37 @@
+diff --git a/10-cgi.conf b/10-cgi.conf
+index 93ab389..2befea3 100644
+--- a/10-cgi.conf
++++ b/10-cgi.conf
+@@ -1,5 +1,6 @@
+ server.modules += ( "mod_cgi" )
+ server.breakagelog = "/var/log/lighttpd/breakage.log"
++alias.url += ( "/rgbcmd" => "/var/www/html/rgbcmd" )
+ $HTTP["url"] =~ "^/rgbcmd" {
+   cgi.assign      = (
+ 	""  => "",
+diff --git a/Makefile b/Makefile
+index 09c98f8..4475c76 100644
+--- a/Makefile
++++ b/Makefile
+@@ -46,9 +46,9 @@ depend:
+ 
+ copy-files: all
+ 	sudo cp 10-cgi.conf /etc/lighttpd/conf-enabled/10-cgi.conf
+-	sudo cp rgbcmd-cgi /var/www/rgbcmd
+-	sudo chmod a+rwx /var/www/rgbcmd
+-	sudo cp rgb.html /var/www/index.html
++	sudo cp rgbcmd-cgi /var/www/html/rgbcmd
++	sudo chmod a+rwx /var/www/html/rgbcmd
++	sudo cp rgb.html /var/www/html/index.html
+ 	sudo install -v -m 744 -o root -g root rgb /usr/local/bin/rgb
+ 	sudo install -v -m 744 -o root -g root rgb.service /etc/systemd/system/rgb.service
+ 
+@@ -61,6 +61,6 @@ lighttpd:
+ 
+ install: deps all copy-files
+ 	- sudo service lighttpd force-reload
+-	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd
++	sudo touch /var/rgbcmd; sudo chown pi /var/rgbcmd; sudo chmod 0666 /var/rgbcmd
+ 	- sudo systemctl enable rgb.service
+ 	- sudo systemctl restart rgb.service
+
