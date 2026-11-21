@@ -32,10 +32,10 @@ h1 {
   display: block;
   background-color: #f7f7f7;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
-  background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
-  background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
-  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
-  background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7);
   color: #a7a7a7;
   margin: 1em;
   width: 6em;
@@ -124,7 +124,7 @@ console.log(event.data);
 }
 
 $(document).ready(function() {
-  $.getJSON("/rgbcmd", update); 
+  $.getJSON("/rgbcmd", update);
   $("#cmd_on").parent().click({command:'on'}, rgbcmd);
   $("#cmd_off").parent().click({command:'off'}, rgbcmd);
   $("#cmd_blink").parent().click({command:'blink'}, rgbcmd);

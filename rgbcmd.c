@@ -64,11 +64,10 @@ void rgbcmd_json(rgbcmd_t *cmd, char *buffer, size_t length) {
     default:
       modestring = "unknown";
   }
-  snprintf(buffer, length, 
-    "{\"command\":\"%s\",\"red\":%d,\"green\":%d,\"blue\":%d,\"hex\":\"%02x%02x%02x\"}", 
-    modestring, 
-    cmd->red, cmd->green, cmd->blue, 
+  snprintf(buffer, length,
+    "{\"command\":\"%s\",\"red\":%d,\"green\":%d,\"blue\":%d,\"hex\":\"%02x%02x%02x\"}",
+    modestring,
+    cmd->red, cmd->green, cmd->blue,
     cmd->red, cmd->green, cmd->blue
   );
 }
-

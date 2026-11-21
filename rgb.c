@@ -71,9 +71,9 @@ void update_rgbcmd_from_hue(int hue, rgbcmd_t *rainbow_cmd) {
       rainbow_cmd->green = 0;
       rainbow_cmd->blue = q;
       break;
-    default: 
+    default:
       fprintf(stderr, "Did you pass in 360 or higher: %d?\n", hue);
-      exit(-1); 
+      exit(-1);
       break;
   }
 }
@@ -145,4 +145,3 @@ int main(int argc, char *argv[]) {
   }
 
 }
-
