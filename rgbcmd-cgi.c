@@ -23,7 +23,7 @@ int main(void)
    if (path_info) {
      strncpy(buffer, getenv("PATH_INFO"), sizeof(buffer));
      buffer[sizeof(buffer)-1] = '\0';
-  
+
      command = strtok(buffer, "/");
      if (command) {
        if (!strcmp(command, "on")) {
@@ -41,7 +41,7 @@ int main(void)
        } else {
          /* invalid command, might want to move this code to rgbcmd.c */
        }
-    
+
        if (want_color) {
          color = strtok(NULL, "/");
          if (color && (strlen(color) == 6)) {
